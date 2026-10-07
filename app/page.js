@@ -1,6 +1,19 @@
-import Link from 'next/link';
 import Lookbook from '../components/Lookbook';
+import Panel from '../components/Panel';
 import RsvpSection from '../components/RsvpSection';
+import SiteNav from '../components/SiteNav';
+import { Embed } from '../components/app/AppShell';
+import RsvpFlow from '../components/app/RsvpFlow';
+import Hub from '../components/app/Hub';
+import NotificationsScreen from '../components/app/NotificationsScreen';
+import CameraScreen from '../components/app/CameraScreen';
+import GuestbookScreen from '../components/app/GuestbookScreen';
+import VideoScreen from '../components/app/VideoScreen';
+import InteractScreen from '../components/app/InteractScreen';
+import GalleryScreen from '../components/app/GalleryScreen';
+import LaterScreen from '../components/app/LaterScreen';
+import CapsuleScreen from '../components/app/CapsuleScreen';
+import './event/event.css';
 
 export default function Page() {
   return (
@@ -10,18 +23,7 @@ export default function Page() {
         <p className="collection-label__style">Runway editorial invitation</p>
       </div>
 
-      <header className="nav">
-        <a className="nav__mark" href="#top">LYST / 06</a>
-        <nav className="nav__links" aria-label="Primary">
-          <a href="#invitation">Invitation</a>
-          <a href="#story">Story</a>
-          <a href="#programme">Programme</a>
-          <a href="#visit">Visit</a>
-          <Link href="/event">Event</Link>
-        </nav>
-        <Link className="nav__event" href="/event">Event</Link>
-        <a className="pill nav__rsvp" href="#rsvp">RSVP</a>
-      </header>
+      <SiteNav />
 
       <main id="top">
         <section className="hero" id="invitation">
@@ -103,6 +105,43 @@ export default function Page() {
         </section>
 
         <RsvpSection />
+
+        <Embed>
+          <Panel id="respond" step="Respond · 02" title="Your details, in one place." desc="Add guests, choose a menu and share access needs. Saving again simply updates your earlier response.">
+            <RsvpFlow />
+          </Panel>
+
+          <Panel id="hub" wide>
+            <Hub embedded />
+          </Panel>
+
+          <Panel id="updates" step="Prepare · 03" title="Updates from the hosts." desc="Location, schedule and announcements, newest and most important first.">
+            <NotificationsScreen />
+          </Panel>
+
+          <Panel id="camera" step="Participate · 04" title="Event camera." desc="A 24-exposure disposable roll. Your photos stay locked until after the event." tone="stone">
+            <CameraScreen />
+          </Panel>
+          <Panel id="guestbook" title="Voice guestbook." desc="Leave a spoken memory for the room." tone="stone">
+            <GuestbookScreen />
+          </Panel>
+          <Panel id="video" title="Video messages." desc="Record up to a minute for the one-year film." tone="stone">
+            <VideoScreen />
+          </Panel>
+          <Panel id="interact" title="Live room." desc="Letters, hidden moments, the live poll and questions for the hosts." tone="stone">
+            <InteractScreen />
+          </Panel>
+          <Panel id="gallery" title="Guest gallery." desc="Everything the room has captured so far." tone="stone">
+            <GalleryScreen />
+          </Panel>
+
+          <Panel id="later" step="Remember · 05" title="A message for later." desc="Seal a note now. It opens on the date you choose." tone="night">
+            <LaterScreen />
+          </Panel>
+          <Panel id="capsule" title="Digital time capsule." desc="Everything placed here opens together in one year." tone="night">
+            <CapsuleScreen />
+          </Panel>
+        </Embed>
       </main>
 
       <footer className="footer">

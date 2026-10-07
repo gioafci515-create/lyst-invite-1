@@ -124,7 +124,7 @@ export default function RsvpForm({ onStep }) {
       </button>
 
       <p className="rsvp__status" role="status" aria-live="polite">{message}</p>
-      {confirmed && <Link className="pill rsvp__enter" href="/event">Enter the event experience</Link>}
+      {confirmed && <Link className="pill rsvp__enter" href="#hub">Enter the event experience</Link>}
       {error && <p className="rsvp__error" role="alert">{error}</p>}
     </form>
   );

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { addResponse } from '../../../lib/store';
+import { upsertItem } from '../../../lib/store';
 import { clean } from '../../../lib/event';
 
 const MENUS = ['Garden menu', 'Fish', "Children's"];
@@ -27,7 +27,7 @@ export async function POST(request) {
   if (!attending) return NextResponse.json({ error: 'Please choose accept or decline.' }, { status: 400 });
 
   const kept = attending === 'accept' ? companions : [];
-  await addResponse({
+  await upsertItem('responses', (x) => x.name.toLowerCase() === name.toLowerCase(), {
     name,
     attending,
     companions: kept,

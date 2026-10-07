@@ -238,7 +238,7 @@
 .hub__copy { flex: 0 0 520px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .hub__copy p { margin: 0; line-height: 1.5; }
 .hub__eyebrow { color: var(--accent); font: 700 14px/1.4 var(--ev-gs); letter-spacing: 1.2px; text-transform: uppercase; }
-.hub h1 { margin: 0; font: 700 50px/.98 var(--font-display); letter-spacing: -2px; }
+.hub__title { margin: 0; font: 700 50px/.98 var(--font-display); letter-spacing: -2px; }
 .hub__media { position: relative; flex: 1; align-self: stretch; min-height: 304px; display: flex; flex-direction: column; justify-content: space-between; padding: 18px; overflow: hidden; }
 .hub__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .hub__media > * { position: relative; }
@@ -294,4 +294,5 @@
 .hub__media::before { z-index: 1; }
 .hub__media > p, .hub__media > span { z-index: 2; }
 
-html:has(.hub) section[id] { scroll-margin-top: 16px; }
+
+.ev-btn__icon { width: 22px; height: 22px; margin: 0; }

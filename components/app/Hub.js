@@ -28,10 +28,13 @@ const SPACES = [
   ['Camera', '/event/camera'],
   ['Voice guestbook', '/event/guestbook'],
   ['Video messages', '/event/video'],
+  ['Event interaction', '/event/interact'],
+  ['Gallery', '/event/gallery'],
   ['Message for later', '/event/later'],
+  ['Time capsule', '/event/capsule'],
 ];
 
-export default function Hub() {
+export default function Hub({ embedded = false }) {
   const [event] = useApi('/api/event', { every: 15000 });
   const [notes] = useApi('/api/notifications', { every: 15000 });
   const [unread, setUnread] = useState(0);
@@ -53,22 +56,24 @@ export default function Hub() {
   return (
     <div className="hub">
       <header className="hub__nav">
-        <Link href="/" className="hub__mark">LYST / 06</Link>
-        <nav className="hub__links" aria-label="Event hub">
-          {NAV.map(([label, href]) => <Link key={label} href={href}>{label}</Link>)}
-        </nav>
-        <Link href="/event/notifications" className="hub__live">
+        {!embedded && <Link href="/" className="hub__mark">LYST / 06</Link>}
+        {!embedded && (
+          <nav className="hub__links" aria-label="Event hub">
+            {NAV.map(([label, href]) => <Link key={label} href={href}>{label}</Link>)}
+          </nav>
+        )}
+        <a href={embedded ? '#updates' : '/event/notifications'} className="hub__live">
           <img src="/assets/hub/live-dot.svg" alt="" width="8" height="8" />
           LIVE · {unread} ALERT{unread === 1 ? '' : 'S'} · GUEST PASS
-        </Link>
+        </a>
       </header>
 
       <section className="hub__hero" id="today">
         <div className="hub__copy">
           <p className="hub__eyebrow">● Live experience · Maison AER / Edition 047</p>
-          <h1>OBJECT 07: AER</h1>
+          {embedded ? <h2 className="hub__title">OBJECT 07: AER</h2> : <h1 className="hub__title">OBJECT 07: AER</h1>}
           <p>Thursday, 1 October 2026 · First look 20:30<br />Palais de Tokyo · Galerie 5 · Paris, France</p>
-          <Link href="/event/rsvp" className="btn-square">Request seat <img src="/assets/arrow-right.svg" alt="" width="14" height="14" /></Link>
+          <Link href={embedded ? '#respond' : '/event/rsvp'} className="btn-square">Request seat <img src="/assets/arrow-right.svg" alt="" width="14" height="14" /></Link>
         </div>
         <div className="hub__media">
           <img src="/assets/hub/live-media.png" alt="" />
@@ -114,7 +119,7 @@ export default function Hub() {
 
       <nav className="hub__spaces" aria-label="Participate">
         <h2 className="hub__caps hub__caps--grey">Participate</h2>
-        <ul>{SPACES.map(([label, href]) => <li key={label}><Link href={href}>{label}</Link></li>)}</ul>
+        <ul>{SPACES.map(([label, href]) => <li key={label}><Link href={embedded ? href.replace('/event/', '#') : href}>{label}</Link></li>)}</ul>
       </nav>
     </div>
   );

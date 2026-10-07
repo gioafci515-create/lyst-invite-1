@@ -11,7 +11,7 @@ export default function CameraScreen() {
   const streamRef = useRef(null);
   const fileRef = useRef(null);
   const [facing, setFacing] = useState('environment');
-  const [camera, setCamera] = useState('starting'); // starting | live | denied | unsupported
+  const [camera, setCamera] = useState('off'); // off | live | denied | unsupported
   const [pending, setPending] = useState(null); // { blob, url } captured, not yet in the roll
   const [uploading, setUploading] = useState(0);
   const [failed, setFailed] = useState([]); // [{ file, source }]
@@ -36,10 +36,14 @@ export default function CameraScreen() {
     }
   }, [stop]);
 
-  useEffect(() => {
-    start(facing);
-    return stop;
-  }, [facing, start, stop]);
+  // The camera only opens when asked (this screen shares a page with many others) and always closes on exit.
+  useEffect(() => stop, [stop]);
+
+  const flip = () => {
+    const next = facing === 'environment' ? 'user' : 'environment';
+    setFacing(next);
+    if (camera === 'live') start(next);
+  };
 
   // The <video> element is remounted when a frame is captured/discarded, so re-attach the stream.
   useEffect(() => {
@@ -81,6 +85,7 @@ export default function CameraScreen() {
     });
 
   const takePhoto = async () => {
+    if (camera !== 'live') return start(facing);
     if (!guest) return setError('Please enter your name first.');
     if (remaining <= 0) return setError('Your disposable roll is full.');
     const shot = await capture();
@@ -89,6 +94,7 @@ export default function CameraScreen() {
   };
 
   const commit = async () => {
+    if (camera !== 'live' && !pending) return start(facing);
     if (!guest) return setError('Please enter your name first.');
     let shot = pending;
     if (!shot) {
@@ -120,7 +126,7 @@ export default function CameraScreen() {
       actions={{ src: '/assets/app/actions-camera.svg', w: 61 }}
       active="participate"
       tone="dark"
-      cta={{ label: 'Capture moment', onClick: commit, disabled: camera !== 'live' && !pending }}
+      cta={{ label: camera === 'live' || pending ? 'Capture moment' : 'Open camera', onClick: commit, disabled: camera === 'unsupported' && !pending }}
     >
       <GuestCard />
       <div className="ev-between">
@@ -139,8 +145,8 @@ export default function CameraScreen() {
         <span className="ev-tag">{pending ? 'REVIEW · NOT YET IN ROLL' : 'LIVE VIEW · FLASH AUTO'}</span>
         <div className="ev-viewfinder__controls">
           <button type="button" className="ev-icon" onClick={() => fileRef.current?.click()} aria-label="Choose from library"><img src="/assets/app/image-up.svg" alt="" width="24" height="24" /></button>
-          <button type="button" className="ev-shutter" onClick={takePhoto} aria-label="Take photo" disabled={camera !== 'live'}><img src="/assets/app/shutter.svg" alt="" width="68" height="68" /></button>
-          <button type="button" className="ev-icon" onClick={() => setFacing((f) => (f === 'environment' ? 'user' : 'environment'))} aria-label="Flip camera"><img src="/assets/app/refresh-cw.svg" alt="" width="24" height="24" /></button>
+          <button type="button" className="ev-shutter" onClick={takePhoto} aria-label={camera === 'live' ? 'Take photo' : 'Open camera'} disabled={camera === 'unsupported'}><img src="/assets/app/shutter.svg" alt="" width="68" height="68" /></button>
+          <button type="button" className="ev-icon" onClick={flip} aria-label="Flip camera"><img src="/assets/app/refresh-cw.svg" alt="" width="24" height="24" /></button>
         </div>
       </div>
 
@@ -149,8 +155,8 @@ export default function CameraScreen() {
         <button type="button" className="ev-btn ev-btn--light ev-grow-2" onClick={() => fileRef.current?.click()}>
           <img src="/assets/app/upload.svg" alt="" width="44" height="44" className="ev-btn__icon" /> Upload existing
         </button>
-        <button type="button" className="ev-btn ev-btn--accent ev-grow-3" onClick={takePhoto} disabled={camera !== 'live'}>
-          <img src="/assets/app/camera.svg" alt="" width="44" height="44" className="ev-btn__icon" /> Take photo
+        <button type="button" className="ev-btn ev-btn--accent ev-grow-3" onClick={takePhoto} disabled={camera === 'unsupported'}>
+          <img src="/assets/app/camera.svg" alt="" width="44" height="44" className="ev-btn__icon" /> {camera === 'live' ? 'Take photo' : 'Open camera'}
         </button>
       </div>
 
