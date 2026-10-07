@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Lookbook from '../components/Lookbook';
 import RsvpSection from '../components/RsvpSection';
 
 export default function Page() {
@@ -18,6 +19,7 @@ export default function Page() {
           <a href="#visit">Visit</a>
           <Link href="/event">Event</Link>
         </nav>
+        <Link className="nav__event" href="/event">Event</Link>
         <a className="pill nav__rsvp" href="#rsvp">RSVP</a>
       </header>
 
@@ -39,21 +41,12 @@ export default function Page() {
         <section className="story" id="story">
           <div className="section-heading">
             <p className="eyebrow eyebrow--olive">
-              <span className="only-desktop">Lookbook / 01—03</span>
+              <span className="only-desktop">Lookbook / 01—05</span>
               <span className="only-mobile">The invitation, in scenes</span>
             </p>
             <h2>A visual language made for this moment.</h2>
           </div>
-          <div className="gallery">
-            <img src="/assets/gallery-1.png" alt="Silver hardware detail on black fabric" />
-            <img src="/assets/gallery-2.png" alt="Model walking the runway in front of seated guests" />
-            <img src="/assets/gallery-3.png" alt="Fragrance bottle lit in yellow-green light" />
-          </div>
-          <img className="story__mobile-img" src="/assets/story-mobile.png" alt="Model walking the runway in front of seated guests" />
-          <div className="storyboard">
-            <p className="storyboard__cue">Frame 01—07 · images cut on scroll</p>
-            <p className="storyboard__dots" aria-hidden="true">●　○　○　○</p>
-          </div>
+          <Lookbook />
         </section>
 
         <section className="programme" id="programme">

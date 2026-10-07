@@ -293,3 +293,5 @@
 .ev-card.ev-between { flex-direction: row; align-items: center; }
 .hub__media::before { z-index: 1; }
 .hub__media > p, .hub__media > span { z-index: 2; }
+
+html:has(.hub) section[id] { scroll-margin-top: 16px; }

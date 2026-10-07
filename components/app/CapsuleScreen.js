@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import AppShell from './AppShell';
 import { countdown, formatDate, mediaUrl, pad, useApi, useNow } from '../../lib/client';
 
+const plural = (n = 0, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
 export default function CapsuleScreen() {
   const [event] = useApi('/api/event', { every: 30000 });
   const [videos] = useApi('/api/moments?kind=video');
@@ -75,18 +77,18 @@ export default function CapsuleScreen() {
       {revealed && open && (
         <div className="ev-card" role="status">
           <p className="ev-caption">Inside the capsule</p>
-          <p className="ev-muted">{c?.photo} photos · {c?.video} films · {c?.voice} voice memories · {c?.letters} letters · {c?.answers} answers.</p>
+          <p className="ev-muted">{plural(c?.photo, 'photo')} · {plural(c?.video, 'film')} · {plural(c?.voice, 'voice memory', 'voice memories')} · {plural(c?.letters, 'letter')} · {plural(c?.answers, 'answer')}.</p>
         </div>
       )}
 
       <div className="ev-card">
         <p className="ev-caption">Contributors</p>
-        <p className="ev-muted">{c?.guests ?? 0} guests · {c?.video ?? 0} video contributors · {c?.voice ?? 0} voice memories · {c?.letters ?? 0} letters · {c?.answers ?? 0} answers.</p>
+        <p className="ev-muted">{plural(c?.guests, 'guest')} · {plural(c?.video, 'video contributor')} · {plural(c?.voice, 'voice memory', 'voice memories')} · {plural(c?.letters, 'letter')} · {plural(c?.answers, 'answer')}.</p>
       </div>
 
       <div className="ev-card">
         <p className="ev-caption">Memory montage</p>
-        <p className="ev-muted">{open ? 'Ready' : 'Collecting'} · {c?.video ?? 0} films · {c?.voice ?? 0} voices · {c?.letters ?? 0} letters · {c?.answers ?? 0} answers.</p>
+        <p className="ev-muted">{open ? 'Ready' : 'Collecting'} · {plural(c?.video, 'film')} · {plural(c?.voice, 'voice')} · {plural(c?.letters, 'letter')} · {plural(c?.answers, 'answer')}.</p>
         <Link href="/event" className="ev-btn ev-btn--light ev-btn--sm">Return to hub</Link>
       </div>
 

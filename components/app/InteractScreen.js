@@ -131,6 +131,7 @@ export default function InteractScreen() {
           ))}
         </div>
         <p className="ev-muted">{poll?.resultsVisible ? `${poll.total} vote${poll.total === 1 ? '' : 's'} · live result` : 'Results are hidden until the hosts reveal them.'}</p>
+        {flash.poll && <p className="ev-olive" role="status">{flash.poll}</p>}
         {errors.poll && <p className="ev-error" role="alert">{errors.poll}</p>}
       </section>
 

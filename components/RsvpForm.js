@@ -13,6 +13,7 @@ export default function RsvpForm({ onStep }) {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const nameRef = useRef(null);
+  const prefRef = useRef(null);
   const { setGuest } = useGuest();
 
   const addCompanion = () => setCompanions((c) => (c.length < MAX_COMPANIONS ? [...c, ''] : c));
@@ -110,8 +111,8 @@ export default function RsvpForm({ onStep }) {
         ))}
 
       <label className="field">
-        <input type="text" name="preferences" placeholder="Dietary / access" autoComplete="off" maxLength={500} />
-        <span className="field__action">Edit privately</span>
+        <input ref={prefRef} type="text" name="preferences" placeholder="Dietary / access" autoComplete="off" maxLength={500} />
+        <button type="button" className="field__action" onClick={() => prefRef.current?.focus()}>Edit privately</button>
       </label>
 
       {/* Honeypot: hidden from people, bots fill it in. */}
