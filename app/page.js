@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import RsvpSection from '../components/RsvpSection';
 
 export default function Page() {
@@ -15,6 +16,7 @@ export default function Page() {
           <a href="#story">Story</a>
           <a href="#programme">Programme</a>
           <a href="#visit">Visit</a>
+          <Link href="/event">Event</Link>
         </nav>
         <a className="pill nav__rsvp" href="#rsvp">RSVP</a>
       </header>
